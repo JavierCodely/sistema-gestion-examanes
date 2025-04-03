@@ -1,0 +1,19 @@
+/* Registro.css */
+.registro-card {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .registro-card .card-header {
+    background-color: #0d6efd;
+  }
+  
+  .registro-card .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+  
+  .registro-card .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+  }
