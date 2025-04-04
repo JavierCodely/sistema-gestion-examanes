@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button, InputGroup } from 'react-bootstrap';
-import { FaGoogle, FaSignInAlt } from 'react-icons/fa';
+import React, { useState, useContext } from 'react';
+import { Container, Card, Form, Button, Alert } from 'react-bootstrap';
+import { FaSignInAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
+import authService from '../../services/authService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 
@@ -10,6 +13,11 @@ const Login = () => {
     dni: '',
     password: ''
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,23 +27,37 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
     event.preventDefault();
     
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    } else {
-      // Aquí iría la lógica de autenticación
-      console.log('Datos enviados:', formData);
+      setValidated(true);
+      return;
     }
-
-    setValidated(true);
-  };
-
-  const handleGoogleLogin = () => {
-    // Aquí iría la implementación de autenticación con Google
-    console.log('Iniciando sesión con Google');
+    
+    setLoading(true);
+    setError('');
+    
+    try {
+      // Llamar al servicio de autenticación
+      const response = await authService.login(formData.dni, formData.password);
+      
+      // Guardar la sesión usando el contexto de autenticación
+      login(response.user, response.token);
+      
+      // Redireccionar al dashboard
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Error al iniciar sesión:', err);
+      setError(
+        err.response?.data?.mensaje || 
+        'Ha ocurrido un error al iniciar sesión. Verifique sus credenciales.'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,6 +74,8 @@ const Login = () => {
         </Card.Header>
         
         <Card.Body className="px-4 py-4">
+          {error && <Alert variant="danger">{error}</Alert>}
+          
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>DNI</Form.Label>
@@ -87,23 +111,21 @@ const Login = () => {
               variant="primary" 
               type="submit" 
               className="w-100 py-2 mb-3"
+              disabled={loading}
             >
-              <FaSignInAlt className="me-2" /> Ingresar
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Iniciando sesión...
+                </>
+              ) : (
+                <>
+                  <FaSignInAlt className="me-2" /> Ingresar
+                </>
+              )}
             </Button>
-            {
-              /*
-              
-              <div className="text-center mb-3">o</div>
-              
-              //<Button
-                variant="outline-danger"
-                className="w-100 py-2 d-flex align-items-center justify-content-center"
-                onClick={handleGoogleLogin}
-              >
-                <FaGoogle className="me-2" /> Continuar con Google
-              //</Button>*/
-            }
           </Form>
+          
           <div className="text-center mt-3">
             <p className="mb-0">¿No tiene una cuenta? <a href="/registro">Registrarse</a></p>
           </div>
