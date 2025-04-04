@@ -22,6 +22,7 @@ const ExamsManagement = ({ registeredExams, availableExams, onRegister }) => {
               <tr>
                 <th>Materia</th>
                 <th>Fecha</th>
+                <th>Mesa</th>
                 <th>Tipo</th>
               </tr>
             </thead>
@@ -30,6 +31,7 @@ const ExamsManagement = ({ registeredExams, availableExams, onRegister }) => {
                 <tr key={`registered-${index}`}>
                   <td>{exam.subject}</td>
                   <td>{exam.date}</td>
+                  <td>{exam.mesa}</td>
                   <td>{exam.type}</td>
                 </tr>
               ))}
