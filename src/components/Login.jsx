@@ -1,23 +1,17 @@
-import React, { useState, useContext } from 'react';
-import { Container, Card, Form, Button, Alert } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import { Container, Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
 import { FaSignInAlt } from 'react-icons/fa';
+import { AuthContext } from './auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import authService from '../../services/authService';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Login.css';
 
 const Login = () => {
-  const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     dni: '',
     password: ''
   });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  
+  const [validated, setValidated] = useState(false);
+  const { login, error: authError, loading: authLoading } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,31 +27,15 @@ const Login = () => {
     
     if (form.checkValidity() === false) {
       event.stopPropagation();
-      setValidated(true);
-      return;
+    } else {
+      try {
+        await login(formData);
+      } catch (err) {
+        // El error ya se maneja en el AuthContext
+      }
     }
-    
-    setLoading(true);
-    setError('');
-    
-    try {
-      // Llamar al servicio de autenticación
-      const response = await authService.login(formData.dni, formData.password);
-      
-      // Guardar la sesión usando el contexto de autenticación
-      login(response.user, response.token);
-      
-      // Redireccionar al dashboard
-      navigate('/dashboard');
-    } catch (err) {
-      console.error('Error al iniciar sesión:', err);
-      setError(
-        err.response?.data?.mensaje || 
-        'Ha ocurrido un error al iniciar sesión. Verifique sus credenciales.'
-      );
-    } finally {
-      setLoading(false);
-    }
+
+    setValidated(true);
   };
 
   return (
@@ -70,11 +48,11 @@ const Login = () => {
             className="mb-2" 
             style={{ height: '40px' }}
           />
-          <h4 className="mb-0">Sistema de Gestión Examenes</h4>
+          <h4 className="mb-0">Sistema de Gestión de Exámenes</h4>
         </Card.Header>
         
         <Card.Body className="px-4 py-4">
-          {error && <Alert variant="danger">{error}</Alert>}
+          {authError && <Alert variant="danger" className="mb-4">{authError}</Alert>}
           
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
@@ -86,6 +64,7 @@ const Login = () => {
                 value={formData.dni}
                 onChange={handleChange}
                 required
+                disabled={authLoading}
               />
               <Form.Control.Feedback type="invalid">
                 Por favor ingrese su DNI.
@@ -101,6 +80,7 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                disabled={authLoading}
               />
               <Form.Control.Feedback type="invalid">
                 Por favor ingrese su contraseña.
@@ -111,13 +91,10 @@ const Login = () => {
               variant="primary" 
               type="submit" 
               className="w-100 py-2 mb-3"
-              disabled={loading}
+              disabled={authLoading}
             >
-              {loading ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  Iniciando sesión...
-                </>
+              {authLoading ? (
+                <Spinner as="span" animation="border" size="sm" />
               ) : (
                 <>
                   <FaSignInAlt className="me-2" /> Ingresar
@@ -132,7 +109,7 @@ const Login = () => {
         </Card.Body>
         
         <Card.Footer className="text-center py-3 bg-white border-0">
-          Instituto Tecnico Superior Puerto Esperanza
+          Instituto Técnico Superior Puerto Esperanza
         </Card.Footer>
       </Card>
     </Container>
