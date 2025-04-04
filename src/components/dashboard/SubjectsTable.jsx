@@ -17,7 +17,7 @@ const SubjectsTable = ({ subjects }) => {
         <h4>Mis Materias</h4>
       </Card.Header>
       <Card.Body>
-        <Table striped bordered hover responsive>
+        <Table striped bordered hover responsive className='mt-3'>
           <thead>
             <tr>
               <th>Cursando</th>

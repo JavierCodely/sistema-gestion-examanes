@@ -25,7 +25,7 @@ const ExamRegistration = () => {
       try {
         setLoading(true);
         // Aquí deberías implementar un servicio para obtener los detalles de la materia y las mesas de examen
-        // Esto es un ejemplo, ajustar API
+        // Esto es un ejemplo, ajusta según tu API
         const response = await studentService.getExamDetails(subjectId);
         setSubject(response.subject);
         setExamDates(response.examDates);
@@ -78,7 +78,7 @@ const ExamRegistration = () => {
           <h4>Seleccionar Mesa de Examen</h4>
         </Card.Header>
         <Card.Body>
-          <h5 className="mb-4">Materia: {subject?.name}</h5>
+          <h5 className="mb-4">Materia: {subject || "Cargando..."}</h5>
           
           <Form onSubmit={handleSubmit}>
             <Table striped bordered hover responsive>
@@ -87,6 +87,7 @@ const ExamRegistration = () => {
                   <th>Tipo</th>
                   <th>Fecha</th>
                   <th>Horario</th>
+                  <th>Nota</th>
                   <th>Aula</th>
                   <th>Acción</th>
                 </tr>
@@ -96,6 +97,7 @@ const ExamRegistration = () => {
                   <tr key={exam.id}>
                     <td>{exam.type}</td>
                     <td>{exam.date}</td>
+                    <td>{exam.time}</td>
                     <td>{exam.time}</td>
                     <td>{exam.classroom}</td>
                     <td>

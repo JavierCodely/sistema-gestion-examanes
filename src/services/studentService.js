@@ -71,15 +71,15 @@ export const studentService = {
               id: 101, 
               type: "Mesa 1", 
               date: subject.date1, 
-              time: "14:00", 
-              classroom: "Lab 3" 
+              time: subject.time, 
+              classroom: subject.aula
             },
             { 
               id: 102, 
               type: "Mesa 2", 
               date: subject.date2, 
-              time: "16:00", 
-              classroom: "Lab 2" 
+              time: subject.time, 
+              classroom: subject.aula 
             }
           ]
         };

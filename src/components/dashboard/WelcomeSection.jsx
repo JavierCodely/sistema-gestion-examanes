@@ -4,21 +4,21 @@ import { Card, ListGroup, Table } from 'react-bootstrap';
 const WelcomeSection = ({ upcomingExams }) => {
   return (
     <Card className="mb-4">
-      <Card.Header className="bg-primary text-white">
-        <h4>Bienvenido</h4>
-      </Card.Header>
-      <Card.Body>
-        <p>
-          Bienvenido al sistema de gestión de notas universitarias. Desde aquí podrás:
-        </p>
-        <ListGroup variant="flush" className="mb-4">
-          <ListGroup.Item>Ver tus materias y su estado</ListGroup.Item>
-          <ListGroup.Item>Consultar tus notas</ListGroup.Item>
-          <ListGroup.Item>Inscribirte a exámenes</ListGroup.Item>
-          <ListGroup.Item>Ver fechas de exámenes pendientes</ListGroup.Item>
-        </ListGroup>
+    <Card.Header className="bg-primary text-white">
+      <h4>Bienvenido</h4>
+    </Card.Header>
+    <Card.Body>
+      <p>
+        Bienvenido al sistema de gestión de notas universitarias. Desde aquí podrás:
+      </p>
+      <ul className="mb-4 ps-3">
+        <li>Ver tus materias y su estado</li>
+        <li>Consultar tus notas</li>
+        <li>Inscribirte a exámenes</li>
+        <li>Ver fechas de exámenes pendientes</li>
+      </ul>
 
-        <h5 className="mb-3">Próximos exámenes disponibles:</h5>
+      <h5 className="mb-3"><strong>Próximos exámenes disponibles:</strong></h5>
         <Table striped bordered hover responsive>
           <thead>
             <tr>

@@ -114,6 +114,7 @@ const Dashboard = () => {
     <Container className="mt-4">
       {studentData && <StudentInfo student={studentData} />}
       
+      <div className="mt-4">
       <Tabs
         activeKey={activeTab}
         onSelect={(k) => setActiveTab(k)}
@@ -133,6 +134,7 @@ const Dashboard = () => {
           />
         </Tab>
       </Tabs>
+    </div>
     </Container>
   );
 };
