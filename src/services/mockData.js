@@ -3,9 +3,9 @@ export const mockStudentInfo = {
     name: "Lisandro Recalde",
     career: "Tecnicatura en Tecnología de la Información",
     dni: "12345678",
-    average: 8.5,
-    approvedSubjects: 20,
-    currentSubjects: 5
+    promedio: 8.5,
+    asignaturasAprobadas: 20,
+    cursando: 5
   };
   
   export const mockSubjects = [

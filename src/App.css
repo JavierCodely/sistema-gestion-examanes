@@ -28,6 +28,25 @@
   color: #61dafb;
 }
 
+/* Estilo para los links activos en el menú móvil */
+.nav-link.active {
+  font-weight: bold;
+  color: #0d6efd !important;
+  background-color: rgba(13, 110, 253, 0.1);
+}
+
+/* Ajustar el z-index del offcanvas para que aparezca sobre todo */
+.offcanvas {
+  z-index: 1050;
+}
+
+/* Hacer que el menú ocupe menos espacio en móviles */
+@media (max-width: 991.98px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

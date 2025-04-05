@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
 import { studentService } from '../../services/studentService';
 import { Container, Card, Table, Button, Spinner, Alert, Form } from 'react-bootstrap';
-
+import './ExamRegistration.css';
 const ExamRegistration = () => {
   const { subjectId } = useParams();
   const { user } = useContext(AuthContext);
@@ -14,6 +14,7 @@ const ExamRegistration = () => {
   const [subject, setSubject] = useState(null);
   const [examDates, setExamDates] = useState([]);
   const [selectedExam, setSelectedExam] = useState(null);
+  
 
   useEffect(() => {
     if (!user) {
@@ -78,36 +79,30 @@ const ExamRegistration = () => {
           <h4>Seleccionar Mesa de Examen</h4>
         </Card.Header>
         <Card.Body>
-          <h5 className="mb-4">Materia: {subject || "Cargando..."}</h5>
+          <h5 className="mb-4 materiaExamen">Materia: {subject || "Cargando..."}</h5>
           
           <Form onSubmit={handleSubmit}>
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
-                  <th>Tipo</th>
+                  <th>Mesa</th>
                   <th>Fecha</th>
-                  <th>Horario</th>
-                  <th>Nota</th>
-                  <th>Aula</th>
                   <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
-                {examDates.map((exam) => (
+                  {examDates.map((exam) => (
                   <tr key={exam.id}>
                     <td>{exam.type}</td>
                     <td>{exam.date}</td>
-                    <td>{exam.time}</td>
-                    <td>{exam.time}</td>
-                    <td>{exam.classroom}</td>
                     <td>
-                      <Form.Check
-                        type="radio"
-                        name="examSelection"
-                        id={`exam-${exam.id}`}
-                        onChange={() => handleSelectExam(exam.id)}
-                        checked={selectedExam === exam.id}
-                      />
+                      <Button
+                        variant={selectedExam === exam.id ? 'success' : 'outline-secondary'}
+                        onClick={() => handleSelectExam(exam.id)}
+                        className="selection-button"
+                      >
+                        {selectedExam === exam.id ? '✓ Seleccionado' : 'Seleccionar'}
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -117,7 +112,9 @@ const ExamRegistration = () => {
             <div className="d-flex justify-content-between mt-4">
               <Button 
                 variant="secondary" 
-                onClick={() => navigate('/dashboard/exams')}
+                onClick={() => navigate('/dashboard', { 
+                  state: { fromRegistration: true } 
+                })}
               >
                 Cancelar
               </Button>

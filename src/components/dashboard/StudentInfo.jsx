@@ -15,15 +15,15 @@ const StudentInfo = ({ student }) => {
       
       <div className="d-flex justify-content-between mt-3">
         <div className="text-center">
-          <h3>{student.average}</h3>
+          <h3>{student.promedio}</h3>
           <p>Promedio</p>
         </div>
         <div className="text-center">
-          <h3>{student.approvedSubjects}</h3>
+          <h3>{student.asignaturasAprobadas}</h3>
           <p>Aprobadas</p>
         </div>
         <div className="text-center">
-          <h3>{student.currentSubjects}</h3>
+          <h3>{student.cursando}</h3>
           <p>Cursando</p>
         </div>
       </div>
