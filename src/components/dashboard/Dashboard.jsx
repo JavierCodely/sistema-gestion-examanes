@@ -6,7 +6,7 @@ import StudentInfo from './StudentInfo';
 import SubjectsTable from './SubjectsTable';
 import WelcomeSection from './WelcomeSection';
 import ExamsManagement from './ExamsManagement';
-import { Container, Spinner, Alert, Tab, Tabs } from 'react-bootstrap';
+import { Container, Spinner, Alert, Tab, Tabs, Row, Col  } from 'react-bootstrap';
 
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -112,29 +112,33 @@ const Dashboard = () => {
 
   return (
     <Container className="mt-4">
-      {studentData && <StudentInfo student={studentData} />}
-      
-      <div className="mt-4">
-      <Tabs
-        activeKey={activeTab}
-        onSelect={(k) => setActiveTab(k)}
-        className="mb-3"
-      >
-        <Tab eventKey="welcome" title="Inicio">
-          <WelcomeSection upcomingExams={upcomingExams} />
-        </Tab>
-        <Tab eventKey="subjects" title="Mis Materias">
-          <SubjectsTable subjects={subjects} />
-        </Tab>
-        <Tab eventKey="exams" title="Exámenes">
-          <ExamsManagement 
-            registeredExams={registeredExams}
-            availableExams={availableExams}
-            onRegister={handleRegisterExam}
-          />
-        </Tab>
-      </Tabs>
-    </div>
+      <Row>
+      <Col>
+        {studentData && <StudentInfo student={studentData} />}
+        
+        <div className="mt-4">
+          <Tabs
+            activeKey={activeTab}
+            onSelect={(k) => setActiveTab(k)}
+            className="mb-3"
+          >
+            <Tab eventKey="welcome" title="Inicio">
+              <WelcomeSection upcomingExams={upcomingExams} />
+            </Tab>
+            <Tab eventKey="subjects" title="Mis Materias">
+              <SubjectsTable subjects={subjects} />
+            </Tab>
+            <Tab eventKey="exams" title="Exámenes">
+              <ExamsManagement 
+                registeredExams={registeredExams}
+                availableExams={availableExams}
+                onRegister={handleRegisterExam}
+              />
+            </Tab>
+          </Tabs>
+        </div>
+      </Col>
+    </Row>
     </Container>
   );
 };

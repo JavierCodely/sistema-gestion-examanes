@@ -17,7 +17,7 @@ const WelcomeSection = ({ upcomingExams }) => {
         <li>Inscribirte a exámenes</li>
         <li>Ver fechas de exámenes pendientes</li>
       </ul>
-
+    {/*
       <h5 className="mb-3"><strong>Próximos exámenes disponibles:</strong></h5>
         <Table striped bordered hover responsive>
           <thead>
@@ -40,7 +40,7 @@ const WelcomeSection = ({ upcomingExams }) => {
               </tr>
             ))}
           </tbody>
-        </Table>
+        </Table>*/}
       </Card.Body>
     </Card>
   );
