@@ -1,0 +1,140 @@
+/* Estilos generales */
+
+.mobile-student-info {
+  margin: 20px 20px 0px 20px;
+}
+
+.student-info-card {
+  width: 100%;
+}
+
+.student-info-column {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.student-info-column .fixed-card {
+  position: sticky;
+  top: 20px;
+}
+
+.main-content-column {
+  padding: 0px;
+}
+
+/* Asegúrate de que el contenido principal ocupe el espacio adecuado */
+.content-wrapper {
+  margin-top: 0px;
+}
+
+/* Ajustes para los tabs en desktop */
+.desktop-tabs {
+  margin-left: 0;
+}
+.dashboard-container {
+    min-height: 100vh;
+  }
+  
+  
+  /* Navbar Mobile */
+  .mobile-navbar {
+    color: white;
+    background-color: #2f46f3;
+    padding: 10px 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .navbar-brand{
+    
+    color: white;
+  }
+  
+  .navbar-toggler-custom {
+    color: white;
+    padding: 5px;
+  }
+  
+  /* Offcanvas personalizado */
+  .custom-offcanvas {
+    background-color: #567492cb;
+    color: white;
+    width: 280px;
+  }
+  
+  .custom-offcanvas .btn-close {
+    filter: invert(1);
+  }
+  .text-muted{
+    color: white !important;
+  }
+  
+  .user-info {
+
+    padding: 15px;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    margin-bottom: 15px;
+  }
+  
+  .nav-link-custom {
+    color: #ffffff !important;
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+  }
+  
+  .nav-link-custom:hover, .nav-link-custom.active {
+    background-color: #3498db;
+    color: white !important;
+    text-decoration: none;
+  }
+  
+  .nav-link-custom.active {
+    font-weight: bold;
+  }
+  
+  /* Tabs para desktop */
+  .custom-tabs .nav-link {
+    color: #7f8c8d;
+    font-weight: 500;
+    border: none;
+    padding: 12px 20px;
+    margin: 0 !important;
+    
+  }
+  
+  .custom-tabs .nav-link.active {
+    margin: 0 !important;
+    color: #3498db;
+    background-color: transparent;
+    border-bottom: 3px solid #3498db;
+  }
+  
+  .tab-content {
+    padding: 0px;
+  }
+  
+  .selection-button {
+    min-width: 120px;
+    transition: all 0.3s ease;
+  }
+  .navbar-toggler-custom{
+    color: #ffffff !important;
+  }
+  
+  .selection-button:hover {
+    transform: scale(1.05);
+  }
+
+  /* Responsive */
+  @media (max-width: 991.98px) {
+    .content-wrapper {
+      padding: 15px;
+    }
+    
+    .mobile-content {
+      margin-top: 15px;
+    }
+  }

@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button, InputGroup } from 'react-bootstrap';
-import { FaGoogle, FaSignInAlt } from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Login.css';
+import React, { useContext, useState } from 'react';
+import { Container, Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
+import { FaSignInAlt } from 'react-icons/fa';
+import { AuthContext } from './auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     dni: '',
     password: ''
   });
+  const [validated, setValidated] = useState(false);
+  const { login, error: authError, loading: authLoading } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,23 +21,21 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
     event.preventDefault();
     
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      // Aquí iría la lógica de autenticación
-      console.log('Datos enviados:', formData);
+      try {
+        await login(formData);
+      } catch (err) {
+        // El error ya se maneja en el AuthContext
+      }
     }
 
     setValidated(true);
-  };
-
-  const handleGoogleLogin = () => {
-    // Aquí iría la implementación de autenticación con Google
-    console.log('Iniciando sesión con Google');
   };
 
   return (
@@ -48,10 +48,12 @@ const Login = () => {
             className="mb-2" 
             style={{ height: '40px' }}
           />
-          <h4 className="mb-0">Sistema de Gestión Examenes</h4>
+          <h4 className="mb-0">Sistema de Gestión de Exámenes</h4>
         </Card.Header>
         
         <Card.Body className="px-4 py-4">
+          {authError && <Alert variant="danger" className="mb-4">{authError}</Alert>}
+          
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>DNI</Form.Label>
@@ -62,6 +64,7 @@ const Login = () => {
                 value={formData.dni}
                 onChange={handleChange}
                 required
+                disabled={authLoading}
               />
               <Form.Control.Feedback type="invalid">
                 Por favor ingrese su DNI.
@@ -77,6 +80,7 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                disabled={authLoading}
               />
               <Form.Control.Feedback type="invalid">
                 Por favor ingrese su contraseña.
@@ -87,30 +91,25 @@ const Login = () => {
               variant="primary" 
               type="submit" 
               className="w-100 py-2 mb-3"
+              disabled={authLoading}
             >
-              <FaSignInAlt className="me-2" /> Ingresar
+              {authLoading ? (
+                <Spinner as="span" animation="border" size="sm" />
+              ) : (
+                <>
+                  <FaSignInAlt className="me-2" /> Ingresar
+                </>
+              )}
             </Button>
-            {
-              /*
-              
-              <div className="text-center mb-3">o</div>
-              
-              //<Button
-                variant="outline-danger"
-                className="w-100 py-2 d-flex align-items-center justify-content-center"
-                onClick={handleGoogleLogin}
-              >
-                <FaGoogle className="me-2" /> Continuar con Google
-              //</Button>*/
-            }
           </Form>
+          
           <div className="text-center mt-3">
             <p className="mb-0">¿No tiene una cuenta? <a href="/registro">Registrarse</a></p>
           </div>
         </Card.Body>
         
         <Card.Footer className="text-center py-3 bg-white border-0">
-          Instituto Tecnico Superior Puerto Esperanza
+          Instituto Técnico Superior Puerto Esperanza
         </Card.Footer>
       </Card>
     </Container>

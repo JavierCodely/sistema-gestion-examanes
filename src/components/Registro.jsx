@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button, InputGroup } from 'react-bootstrap';
-import { FaUser, FaGoogle, FaUserPlus } from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Registro.css';
+import React, { useContext, useState } from 'react';
+import { Container, Card, Form, Button, Spinner, Alert, Row, Col } from 'react-bootstrap';
+import { FaUserPlus } from 'react-icons/fa';
+import { AuthContext } from './auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Registro = () => {
   const [validated, setValidated] = useState(false);
@@ -11,10 +11,11 @@ const Registro = () => {
     apellido: '',
     dni: '',
     email: '',
-    telefono: '',
     password: '',
     confirmPassword: ''
   });
+  const { register, error: authError, loading: authLoading } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,23 +25,27 @@ const Registro = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
     event.preventDefault();
     
     if (form.checkValidity() === false || formData.password !== formData.confirmPassword) {
       event.stopPropagation();
     } else {
-      // Aquí iría la lógica de registro
-      console.log('Datos de registro:', formData);
+      try {
+        await register({
+          firstName: formData.nombre,
+          lastName: formData.apellido,
+          dni: formData.dni,
+          email: formData.email,
+          password: formData.password
+        });
+      } catch (err) {
+        // El error ya se maneja en el AuthContext
+      }
     }
 
     setValidated(true);
-  };
-
-  const handleGoogleRegister = () => {
-    // Aquí iría la implementación de registro con Google
-    console.log('Registrando con Google');
   };
 
   return (
@@ -57,6 +62,8 @@ const Registro = () => {
         </Card.Header>
         
         <Card.Body className="px-4 py-4">
+          {authError && <Alert variant="danger" className="mb-4">{authError}</Alert>}
+          
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row>
               <Col md={6}>
@@ -69,6 +76,7 @@ const Registro = () => {
                     value={formData.nombre}
                     onChange={handleChange}
                     required
+                    disabled={authLoading}
                   />
                   <Form.Control.Feedback type="invalid">
                     Por favor ingrese su nombre.
@@ -86,6 +94,7 @@ const Registro = () => {
                     value={formData.apellido}
                     onChange={handleChange}
                     required
+                    disabled={authLoading}
                   />
                   <Form.Control.Feedback type="invalid">
                     Por favor ingrese su apellido.
@@ -103,6 +112,7 @@ const Registro = () => {
                 value={formData.dni}
                 onChange={handleChange}
                 required
+                disabled={authLoading}
               />
               <Form.Control.Feedback type="invalid">
                 Por favor ingrese su DNI.
@@ -118,33 +128,12 @@ const Registro = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                disabled={authLoading}
               />
               <Form.Control.Feedback type="invalid">
                 Por favor ingrese un correo electrónico válido.
               </Form.Control.Feedback>
-            
-            {
-              /*
-              
-              </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Número de teléfono</Form.Label>
-                    <Form.Control
-                      type="tel"
-                      placeholder="Ingrese su número de teléfono"
-                      name="telefono"
-                      value={formData.telefono}
-                      onChange={handleChange}
-                      required
-                    />
-                  
-                      <Form.Control.Feedback type="invalid">
-                    Por favor ingrese su número de teléfono.
-                  </Form.Control.Feedback>
-                  */
-                }
             </Form.Group>
-              
 
             <Row>
               <Col md={6}>
@@ -158,6 +147,7 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                     minLength="6"
+                    disabled={authLoading}
                   />
                   <Form.Control.Feedback type="invalid">
                     La contraseña debe tener al menos 6 caracteres.
@@ -176,6 +166,7 @@ const Registro = () => {
                     onChange={handleChange}
                     required
                     isInvalid={validated && formData.password !== formData.confirmPassword}
+                    disabled={authLoading}
                   />
                   <Form.Control.Feedback type="invalid">
                     Las contraseñas no coinciden.
@@ -188,26 +179,17 @@ const Registro = () => {
               variant="primary" 
               type="submit" 
               className="w-100 py-2 mb-3"
+              disabled={authLoading}
             >
-              <FaUserPlus className="me-2" /> Registrarse
+              {authLoading ? (
+                <Spinner as="span" animation="border" size="sm" />
+              ) : (
+                <>
+                  <FaUserPlus className="me-2" /> Registrarse
+                </>
+              )}
             </Button>
-            
-            {/*
-            <div className="text-center mb-3">o</div>
-            
-            <Button
-              variant="outline-danger"
-              className="w-100 py-2 d-flex align-items-center justify-content-center"
-              onClick={handleGoogleRegister}
-            >
-              <FaGoogle className="me-2" /> Registrarse con Google
-            </Button>
-            
-            */}
-              
-             
-        
-        </Form>
+          </Form>
           
           <div className="text-center mt-3">
             <p className="mb-0">¿Ya tiene una cuenta? <a href="/login">Iniciar sesión</a></p>
@@ -215,7 +197,7 @@ const Registro = () => {
         </Card.Body>
         
         <Card.Footer className="text-center py-3 bg-white border-0">
-          Instituto Tecnico Superior Puerto Esperanza
+          Instituto Técnico Superior Puerto Esperanza
         </Card.Footer>
       </Card>
     </Container>
