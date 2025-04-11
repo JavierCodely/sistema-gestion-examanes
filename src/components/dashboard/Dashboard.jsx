@@ -134,10 +134,34 @@ const Dashboard = () => {
     setActiveTab(tab);
     setShowOffcanvas(false); // Cierra el offcanvas al seleccionar
   };
+
+
+
+
+
+
+
+
+
+
   return (
+
+
     <Container fluid className="dashboard-container px-0">
     <Row className="g-0">
-      <Col>
+      {/* Columna izquierda para StudentInfo en pantallas grandes */}
+      <Col lg={3} className="d-none d-lg-block student-info-column">
+        {studentData && <StudentInfo student={studentData} className="student-info-card fixed-card" />}
+      </Col>
+
+
+
+
+      {/* Columna derecha para el contenido principal */}
+      <Col lg={9} className="main-content-column">
+         
+
+
         {/* Navbar Mobile */}
         <Navbar expand="lg" className="mobile-navbar d-lg-none">
           <Container fluid>
@@ -196,11 +220,12 @@ const Dashboard = () => {
             </Navbar.Offcanvas>
           </Container>
         </Navbar>
-
+        {/* StudentInfo en móvil - aparece arriba */}
+        <div className="d-lg-none mobile-student-info">
+            {studentData && <StudentInfo student={studentData} className="student-info-card" />}
+          </div>
         {/* Contenido principal */}
-        <div className="content-wrapper">
-          {studentData && <StudentInfo student={studentData} className="student-info-card" />}
-          
+        <div className="container content-wrapper">
           {/* Tabs para desktop */}
           <div className="desktop-tabs d-none d-lg-block">
             <Tabs
@@ -264,7 +289,8 @@ const Dashboard = () => {
       </Col>
     </Row>
   </Container>
-  );
+);
 };
+     
 
 export default Dashboard;

@@ -155,7 +155,7 @@ const DashboardContainer = () => {
 
   // RENDER DE LA APP
   return (
-    <Container fluid className="dashboard-container px-0">
+    <Container fluid className="container dashboard-container px-0">
       <Row className="g-0">
         <Col>
           {/* movil y laptos  */}

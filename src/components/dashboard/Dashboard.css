@@ -1,11 +1,41 @@
 /* Estilos generales */
+
+.mobile-student-info {
+  margin: 20px 20px 0px 20px;
+}
+
+.student-info-card {
+  width: 100%;
+}
+
+.student-info-column {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.student-info-column .fixed-card {
+  position: sticky;
+  top: 20px;
+}
+
+.main-content-column {
+  padding: 0px;
+}
+
+/* Asegúrate de que el contenido principal ocupe el espacio adecuado */
+.content-wrapper {
+  margin-top: 0px;
+}
+
+/* Ajustes para los tabs en desktop */
+.desktop-tabs {
+  margin-left: 0;
+}
 .dashboard-container {
     min-height: 100vh;
   }
   
-  .content-wrapper {
-    padding: 20px;
-  }
   
   /* Navbar Mobile */
   .mobile-navbar {
@@ -39,7 +69,7 @@
   }
   
   .user-info {
-    
+
     padding: 15px;
     border-bottom: 1px solid rgb(255, 255, 255);
     margin-bottom: 15px;
@@ -71,17 +101,19 @@
     font-weight: 500;
     border: none;
     padding: 12px 20px;
-    margin-right: 5px;
+    margin: 0 !important;
+    
   }
   
   .custom-tabs .nav-link.active {
+    margin: 0 !important;
     color: #3498db;
     background-color: transparent;
     border-bottom: 3px solid #3498db;
   }
   
   .tab-content {
-    padding: 20px 0;
+    padding: 0px;
   }
   
   .selection-button {
