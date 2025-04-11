@@ -3,6 +3,7 @@ export const mockStudentInfo = {
     name: "Lisandro Recalde",
     career: "Tecnicatura en Tecnología de la Información",
     dni: "12345678",
+    password: "1234",
     promedio: 8.5,
     asignaturasAprobadas: 20,
     cursando: 5
