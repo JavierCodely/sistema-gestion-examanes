@@ -1,17 +1,34 @@
+// ExamsManagement.jsx
 import React from 'react';
 import { Table, Button, Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; // Añade esta línea
+import { useNavigate } from 'react-router-dom';
+
+/**
+ * Component for managing exam registration
+ * Shows registered exams and available exams for registration
+ * 
+ * @param {Array} registeredExams - Array of already registered exam objects
+ * @param {Array} availableExams - Array of available exam objects
+ * @param {Function} onRegister - Function to handle exam registration
+ */
 const ExamsManagement = ({ registeredExams, availableExams, onRegister }) => {
+  const navigate = useNavigate();
   
-    const navigate = useNavigate();
-  
-    const handleRegisterClick = (examId, subjectId) => {
-      // Navega a la página de registro de examen con el subjectId
-      navigate(`/exams/register/${subjectId}`);
-    };
+  /**
+   * Handles click on register button
+   * Navigates to registration page with subject ID
+   * 
+   * @param {string|number} examId - The ID of the exam
+   * @param {string|number} subjectId - The ID of the subject
+   */
+  const handleRegisterClick = (examId, subjectId) => {
+    // Navigate to the exam registration page for the specific subject
+    navigate(`/exams/register/${subjectId}`);
+  };
 
   return (
     <div>
+      {/* Registered exams section */}
       <Card className="mb-4">
         <Card.Header className="bg-primary text-white">
           <h4>Exámenes Inscriptos</h4>
@@ -40,6 +57,7 @@ const ExamsManagement = ({ registeredExams, availableExams, onRegister }) => {
         </Card.Body>
       </Card>
 
+      {/* Available exams section */}
       <Card className="mb-4">
         <Card.Header className="bg-primary text-white">
           <h4>Exámenes Disponibles</h4>

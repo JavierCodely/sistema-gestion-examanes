@@ -9,11 +9,11 @@ export const mockStudentInfo = {
   };
   
   export const mockSubjects = [
-    { name: "Programación II", grade: 8.5, status: "Promoción" },
-    { name: "Base de Datos", grade: 6.2, status: "Regular" },
-    { name: "Sistemas Operativos", grade: 7, status: "Promoción" },
-    { name: "Matemática II", grade: 3.5, status: "Insuficiente" },
-    { name: "Estadística", grade: 5, status: "Regular" }
+    { name: "Programación II", grade: 8.5, status: "Promoción", gradeLevel: 2 },
+    { name: "Base de Datos", grade: 6.2, status: "Regular", gradeLevel: 2 },
+    { name: "Sistemas Operativos", grade: 7, status: "Promoción", gradeLevel: 3 },
+    { name: "Matemática II", grade: 3.5, status: "Insuficiente", gradeLevel: 1 },
+    { name: "Estadística", grade: 5, status: "Regular", gradeLevel: 1 }
   ];
   
   export const mockExams = {

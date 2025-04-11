@@ -1,7 +1,13 @@
 // DashboardContainer.jsx
 import React, { useContext, useEffect, useState } from 'react';
+// useNavigate y useLocation son hooks para navegación y ubicación actual en la app
 import { useNavigate, useLocation } from 'react-router-dom';
+
+// Importamos el contexto de autenticación, para saber si el usuario está logueado
+
 import { AuthContext } from '../auth/AuthContext';
+
+// Importamos funciones para obtener datos del estudiante desde la AP
 import { studentService } from '../../services/studentService';
 import { Container, Spinner, Alert, Row, Col } from 'react-bootstrap';
 import DashboardNavbar from './DashboardNavbar';
@@ -12,75 +18,103 @@ import DashboardContent from './DashboardContent';
  * Handles authentication, data fetching, and layout structure
  */
 const DashboardContainer = () => {
-  // Router hooks for navigation and location state
+ // Hook para saber desde qué ruta llegó el usuario
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useNavigate();// Hook para redireccionar
   
-  // Auth context for user authentication
-  const { user } = useContext(AuthContext);
+ 
+  const { user } = useContext(AuthContext);// Obtenemos el usuario y logout desde el contexto
   
   // Component state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Estados locales que controlan qué pestaña está activa, si estamos cargando, y los datos del estudiante
   const [activeTab, setActiveTab] = useState('welcome');
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
+
+  const [showOffcanvas, setShowOffcanvas] = useState(false);// Para mostrar/ocultar el menú en móviles
   
-  // Student data state
+  // Importamos componentes que se mostrarán dentro del dashboard
   const [studentData, setStudentData] = useState(null);
   const [subjects, setSubjects] = useState([]);
   const [registeredExams, setRegisteredExams] = useState([]);
   const [availableExams, setAvailableExams] = useState([]);
   const [upcomingExams, setUpcomingExams] = useState([]);
 
-  // Effect for authentication check and data loading
+
+
+
+
+
+
+
+
+
+
+  // Lógica de carga de datos y redirecciones
   useEffect(() => {
-    // Redirect to login if no user is authenticated
+    // Si no hay usuario logueado, redirigimos al login
     if (!user) {
       navigate('/login');
       return;
     }
     
-    // Handle navigation from registration page
+    // Si venimos de la página de registro a examen, cambiamos a la pestaña de exámenes
     if (location.state?.fromRegistration) {
       setActiveTab('exams');
-      // Clear state to avoid affecting future navigations
+
+            // Limpiamos el estado de navegación para no volver a cambiar de pestaña automáticamente
+
       navigate('.', { state: null, replace: true });
     }
 
-    // Fetch all student data from API
+
+
+
+
+
+
+
+
+    // Función que obtiene todos los datos del estudiante desde el backend
     const fetchData = async () => {
       try {
         setLoading(true);
         
-        // Fetch data in parallel for better performance
+        // Pedimos todos los datos en paralelo (mejor performance)
         const [info, subjects, exams] = await Promise.all([
           studentService.getStudentInfo(),
           studentService.getCurrentSubjects(),
           studentService.getAvailableExams()
         ]);
         
-        // Update state with fetched data
+         // Guardamos los datos obtenidos
         setStudentData(info);
         setSubjects(subjects);
         setAvailableExams(exams.available);
         setRegisteredExams(exams.registered);
         setUpcomingExams(exams.upcoming);
-      } catch (err) {
+      } catch (err) {// Si hay error, lo guardamos y mostramos
         setError(err.message);
         console.error('Error fetching data:', err);
       } finally {
-        setLoading(false);
+        setLoading(false);// Dejamos de mostrar el spinner
       }
     };
 
-    fetchData();
+    fetchData(); // Ejecutamos la función al cargar
   }, [user, navigate, location.state]);
 
-  // Handler for exam registration
+
+
+
+
+
+  // Función para inscribirse a un examen
   const handleRegisterExam = async (examId) => {
     try {
       await studentService.registerForExam(examId);
-      // Update exams list after registration
+      // Actualizamos la lista de exámenes después de registrarnos
       const exams = await studentService.getAvailableExams();
       setAvailableExams(exams.available);
       setRegisteredExams(exams.registered);
@@ -95,7 +129,9 @@ const DashboardContainer = () => {
     setShowOffcanvas(false);
   };
 
-  // Show loading spinner while data is being fetched
+
+
+  // Mostrar un spinner si aún estamos cargando los datos
   if (loading && !studentData) {
     return (
       <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
@@ -113,11 +149,16 @@ const DashboardContainer = () => {
     );
   }
 
+
+
+
+
+  // RENDER DE LA APP
   return (
     <Container fluid className="dashboard-container px-0">
       <Row className="g-0">
         <Col>
-          {/* Mobile and desktop navigation */}
+          {/* movil y laptos  */}
           <DashboardNavbar 
             studentData={studentData}
             activeTab={activeTab}
@@ -126,7 +167,7 @@ const DashboardContainer = () => {
             handleSelectTab={handleSelectTab}
           />
 
-          {/* Main content area */}
+          {/* main*/}
           <DashboardContent
             activeTab={activeTab}
             setActiveTab={setActiveTab}
